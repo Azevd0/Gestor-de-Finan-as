@@ -13,7 +13,7 @@ Para que o sistema rode em qualquer computador sem precisar de uma IDE, precisam
 2. Acesse **Run As** > **Maven build...** (a opção com as reticências `...`).
 3. Na janela que abrir, no campo **Goals**, digite: `clean package`
 4. Clique em **Run**.
-5. Aguarde a mensagem `BUILD SUCCESS` no console.
+5. Aguarde a mensagem `BUILD SUCCESS` no console, significa que o arquivo foi gerado na pasta target.
 
 ### Opção B: Pelo Terminal (CMD)
 1. Abra o terminal na pasta raiz do projeto (onde está o `pom.xml`).
