@@ -32,9 +32,9 @@ public class FinanceiroService {
 		despesaDAO.salvar(d);
 	}
 
-	public void gerarRelatorioDespesasPorTipo() {
+	public void gerarRelatorioDespesas(int mes, int ano) {
 		try {
-			despesaDAO.relatorioDespesasPorTipo();
+			despesaDAO.relatorioGastosPorTipoMes(mes, ano);
 		} catch (Exception e) {
 			throw new RuntimeException("Erro ao gerar relatorio: Verifique se existem despesas cadastradas.");
 		}
@@ -43,7 +43,7 @@ public class FinanceiroService {
 	public List<Despesa> listarTodasDespesas() {
 		List<Despesa> lista = despesaDAO.buscarTodas();
 		if (lista.isEmpty())
-			throw new IllegalStateException("Nenhuma despesa cadastrada no sistema.");
+			throw new IllegalStateException("\nNenhuma despesa cadastrada no sistema.");
 		return lista;
 	}
 
@@ -54,6 +54,26 @@ public class FinanceiroService {
 		} finally {
 			em.close();
 		}
+	}
+	
+	public void listarDespesasPorTipo(String tipo) {
+	    List<Despesa> lista = despesaDAO.buscarPorTipo(tipo);
+	    
+	    if (lista.isEmpty()) {
+	        System.out.println("\nNenhuma despesa encontrada para a categoria " + tipo);
+	        return;
+	    }
+
+	    System.out.println("\n================== LISTAGEM DE DESPESAS: " + tipo.toUpperCase() + " ==================\n");
+	    lista.forEach(d -> {
+	        System.out.printf("Id: %-4d | Titulo: %-25s | Valor: R$ %10.2f | Data: %s%n", 
+	            d.getId(), 
+	            d.getTitulo(), 
+	            d.getValor(), 
+	            d.getDataCadastro());
+	        
+	        System.out.println("--------------------------------------------------------------------------------------------");
+	    });
 	}
 
 	public void excluirDespesa(Long id) {
@@ -96,15 +116,34 @@ public class FinanceiroService {
 			em.close();
 		}
 	}
+	
+	public void listarReceitasPorTipo(String tipo) {
+	    List<Receita> lista = receitaDAO.buscarPorTipo(tipo);
+	    
+	    if (lista.isEmpty()) {
+	        System.out.println("\nNenhuma receita encontrada para a categoria " + tipo);
+	        return;
+	    }
 
-	public void gerarRelatorioReceitaPorTipo() {
-		try {
-			receitaDAO.relatorioReceitasPorTipo();
-		} catch (Exception e) {
-			throw new RuntimeException("Falha ao gerar relatorio: Verifique se existem receitas cadastradas.");
-		}
+	    System.out.println("\n================== LISTAGEM DE RECEITAS: " + tipo.toUpperCase() + " ==================\n");
+	    lista.forEach(d -> {
+	        System.out.printf("Id: %-4d | Titulo: %-25s | Valor: R$ %10.2f | Data: %s%n", 
+	            d.getId(), 
+	            d.getTitulo(), 
+	            d.getValor(), 
+	            d.getDataCadastro());
+	        
+	        System.out.println("--------------------------------------------------------------------------------------------");
+	    });
 	}
 
+	public void gerarRelatorioReceita(int mes, int ano) {
+	    try {
+	        receitaDAO.relatorioGanhosPorTipoMes(mes, ano);
+	    } catch (Exception e) {
+	        throw new RuntimeException("Erro ao processar o relatorio no banco de dados: " + e.getMessage());
+	    }
+	}
 	public void excluirReceita(Long id) {
 		Receita receitaExcluida = receitaDAO.buscarPorId(id);
 		if (receitaExcluida == null)
