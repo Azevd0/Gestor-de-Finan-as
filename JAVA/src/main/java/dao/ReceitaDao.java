@@ -82,15 +82,19 @@ public class ReceitaDao {
                 .setParameter("ano", ano)
                 .getResultList();
 
-            System.out.println("\n============== RELATORIO DAS RECEITAS (" + mes + "/" + ano + ") ==============\n");
-            for (Object[] res : resultados) {
-                BigDecimal soma = (BigDecimal) res[1];
-                BigDecimal perc = soma.divide(total, 4, RoundingMode.HALF_UP).multiply(new BigDecimal("100"));
-                
-                System.out.printf("Tipo: %-15s | Valor: R$ %10.2f | %6.2f%% do total recebido%n", 
-                    res[0], soma, perc.setScale(2, RoundingMode.HALF_UP));
-                System.out.println("------------------------------------------------------------------------");
-            }
+            System.out.println("\n======== RELATORIO DE RECEITAS (" + mes + "/" + ano + ") =========");
+			System.out.printf("%-15s | %-12s | %-10s%n", "TIPO", "VALOR", "PERC (%)");
+			System.out.println("-------------------------------------------------");
+
+			for (Object[] res : resultados) {
+				BigDecimal soma = (BigDecimal) res[1];
+				BigDecimal perc = soma.divide(total, 4, RoundingMode.HALF_UP).multiply(new BigDecimal("100"));
+
+				System.out.printf("%-15s | R$ %10.2f | %6.2f%%%n", res[0], soma,
+						perc.setScale(2, RoundingMode.HALF_UP));
+
+				System.out.println("-------------------------------------------------");
+			}
         } finally {
             em.close();
         }
