@@ -180,19 +180,49 @@ public class Menu {
 	}
 
 	private void listarTudo() {
-		try {
-			System.out.println("\n============== LISTAGEM DE RECEITAS ==============\n");
-			service.listarTodasReceitas().forEach(r -> System.out.println(r.toString()));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+	    String formatoCabecalho = "%-4s | %-25s | %-12s | %-15s | %-10s%n";
+	    String formatoDados = "%-4s | %-25s | R$ %10.2f | %-15s | %-10s%n";
 
-		try {
-			System.out.println("\n============== LISTAGEM DE DESPESAS ==============\n");
-			service.listarTodasDespesas().forEach(d -> System.out.println(d.toString()));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+	    try {
+	        var receitas = service.listarTodasReceitas(); 
+	        
+	        System.out.println("\n================================ LISTAGEM DE RECEITAS =================================");
+	        System.out.printf(formatoCabecalho, "ID", "TITULO", "VALOR", "TIPO", "DATA");
+	        System.out.println("---------------------------------------------------------------------------------");
+	        
+	        receitas.forEach(r -> {
+	            System.out.printf(formatoDados, 
+	                r.getId(), 
+	                r.getTitulo(), 
+	                r.getValor(), 
+	                r.getTipo(), 
+	                r.getDataCadastro());
+	            System.out.println("---------------------------------------------------------------------------------");
+	        });
+	    } catch (Exception e) {
+	        System.out.println("Erro ao listar receitas: " + e.getMessage());
+	    }
+
+	    try {
+	        var despesas = service.listarTodasDespesas(); 
+
+	        System.out.println("\n============================= LISTAGEM DE DESPESAS ==============================");
+	        System.out.printf(formatoCabecalho, "ID", "TITULO", "VALOR", "TIPO", "DATA");
+	        System.out.println("---------------------------------------------------------------------------------");
+	        
+	        despesas.forEach(d -> {
+	            System.out.printf(formatoDados, 
+	                d.getId(), 
+	                d.getTitulo(), 
+	                d.getValor(), 
+	                d.getTipo(), 
+	                d.getDataCadastro());
+	            System.out.println("---------------------------------------------------------------------------------");
+
+	        });
+	    } catch (Exception e) {
+	        System.out.println("Erro ao listar despesas: " + e.getMessage());
+	    }
 	}
 
 	private void listarPorCategoria() {
