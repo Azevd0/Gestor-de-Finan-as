@@ -20,3 +20,9 @@ Para que o sistema rode em qualquer computador sem precisar de uma IDE, precisam
 2. Digite o comando:
    ```bash
    mvn clean package
+   ```
+### Execute a aplicação
+Use o comando abaixo e comece a gerenciar suas finanças
+```bash
+java -jar app.jar
+```
